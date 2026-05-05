@@ -1,6 +1,7 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import { getPosts } from "../API/api";
+import Link from "next/link";
 
 export default function Posts() {
   const { data, isLoading, isError } = useQuery({
@@ -15,14 +16,16 @@ export default function Posts() {
       <div className="flex gap-4 flex-wrap justify-center items-stretch w-full max-w-7xl">
         {data?.map((post) => {
           return (
-            <div
+            <Link
               key={post.id}
+              href={`/posts/${post.id}`}
               className="bg-[#00FF00] text-black w-[300px] p-4 rounded-md flex flex-col gap-2"
             >
               <h1 className="font-bold">{post.id}</h1>
               <h2 className="font-semibold">{post.title}</h2>
-              <p className="text-sm">{post.body}</p>
-            </div>
+              <p>{post.body.substring(0, 50)}...</p>
+              <p className="text-right">Read more_</p>
+            </Link>
           );
         })}
       </div>

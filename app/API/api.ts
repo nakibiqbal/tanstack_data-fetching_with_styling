@@ -9,3 +9,8 @@ export const getPosts = async (): Promise<Post[]> => {
   const response = await api.get<Post[]>("/posts");
   return response.status === 200 ? response.data : [];
 };
+
+export const getPostById = async (id: string): Promise<Post[]> => {
+  const response = await api.get(`/posts/${id}`);
+  return response.data;
+};
