@@ -10,7 +10,21 @@ export const getPosts = async (): Promise<Post[]> => {
   return response.status === 200 ? response.data : [];
 };
 
-export const getPostById = async (id: string): Promise<Post[]> => {
+export const getPostById = async (id: string): Promise<Post> => {
   const response = await api.get(`/posts/${id}`);
   return response.data;
+};
+
+export const fetchPaginationFunction = async (
+  pageNumber: number,
+): Promise<Post[]> => {
+  try {
+    const response = await api.get<Post[]>(
+      `/posts?_start=${pageNumber}&_limit=6`,
+    );
+    return response.status === 200 ? response.data : [];
+  } catch (error) {
+    console.log("Error fetching paginated data:", error);
+    return [];
+  }
 };
