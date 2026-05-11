@@ -11,6 +11,9 @@ export default function Home() {
           <li className="text-5xl font-bold">
             <Link href="/posts/pagination">Posts with Pagination</Link>
           </li>
+          <li className="text-5xl font-bold">
+            <Link href="/posts/crud_operation">Posts with CRUD Operation</Link>
+          </li>
         </ul>
       </nav>
     </section>

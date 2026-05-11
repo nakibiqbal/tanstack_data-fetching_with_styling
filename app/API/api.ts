@@ -28,3 +28,7 @@ export const fetchPaginationFunction = async (
     return [];
   }
 };
+
+export const deletePost = async (id: number): Promise<Post[]> => {
+  return api.delete(`/posts/${id}`);
+};
