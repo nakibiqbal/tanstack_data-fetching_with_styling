@@ -1,5 +1,5 @@
 "use client";
-import { deletePost, fetchPaginationFunction } from "@/app/API/api";
+import { deletePost, fetchPaginationFunction, updatePost } from "@/app/API/api";
 import { Post } from "@/app/API/types";
 import {
   keepPreviousData,
@@ -20,10 +20,21 @@ export default function CRUD_Operation() {
 
   const queryClient = useQueryClient();
   const deleteMutation = useMutation({
-    mutationFn: deletePost,
+    mutationFn: (id: number) => deletePost(id),
     onSuccess: (data, id) => {
       queryClient.setQueryData(["posts", pageNumber], (currElem: Post[]) => {
         return currElem?.filter((post) => post.id !== id);
+      });
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: (id: number) => updatePost(id as number),
+    onSuccess: (apiData, postID) => {
+      queryClient.setQueryData(["posts", pageNumber], (postsData: Post[]) => {
+        return postsData?.map((post) =>
+          post.id === postID ? { ...post, title: apiData.title } : post,
+        );
       });
     },
   });
@@ -46,12 +57,20 @@ export default function CRUD_Operation() {
                 <h2 className="text-2xl">{post.title}</h2>
                 <p>{post.body}</p>
               </div>
-              <button
-                onClick={() => deleteMutation.mutate(post.id)}
-                className="bg-[#031246] w-full mt-4 border border-red-700 p-2 text-center cursor-pointer"
-              >
-                delete
-              </button>
+              <div className="flex gap-4">
+                <button
+                  onClick={() => updateMutation.mutate(post.id)}
+                  className="bg-[#031246] w-full mt-4 border border-red-700 p-2 text-center cursor-pointer uppercase"
+                >
+                  update
+                </button>
+                <button
+                  onClick={() => deleteMutation.mutate(post.id)}
+                  className="bg-[#031246] w-full mt-4 border border-red-700 p-2 text-center cursor-pointer uppercase"
+                >
+                  delete
+                </button>
+              </div>
             </div>
           );
         })}
