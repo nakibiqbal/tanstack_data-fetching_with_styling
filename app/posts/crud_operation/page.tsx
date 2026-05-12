@@ -7,6 +7,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function CRUD_Operation() {
@@ -48,7 +49,8 @@ export default function CRUD_Operation() {
       <div className="flex justify-center items-stretch gap-[2rem] flex-wrap">
         {data?.map((post) => {
           return (
-            <div
+            <Link
+              href={`/posts/${post.id}`}
               key={post.id}
               className="bg-[#031246] w-full max-w-[30rem] border border-red-700 p-4"
             >
@@ -56,6 +58,7 @@ export default function CRUD_Operation() {
                 <h1 className="text-4xl">{post.id}</h1>
                 <h2 className="text-2xl">{post.title}</h2>
                 <p>{post.body}</p>
+                <p className="text-right">Read more_</p>
               </div>
               <div className="flex gap-4">
                 <button
@@ -71,7 +74,7 @@ export default function CRUD_Operation() {
                   delete
                 </button>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>
